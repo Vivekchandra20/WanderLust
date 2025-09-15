@@ -1,0 +1,55 @@
+<%- layout("/layouts/boilerplate") %>
+
+<body>
+    <h3>
+       <%= listing.title %> 
+    </h3>
+    <ul>
+        <img class="card-img-top" src="<%=listing.image.url%>" alt="?"><br>
+        
+        <li> <%= listing.description %>  </li>
+        <li>&#8377 <%= listing.price.toLocaleString("en-IN") %>  </li>
+        <li> <%= listing.location %>  </li>
+        <li> <%= listing.country %>  </li>
+    </ul>
+    <br>
+    <a href="/listings/<%= listing._id %>/edit">Edit the Listing</a><br><br>
+   
+    <form method="post"  action="/listings/<%= listing._id %>?_method=Delete">
+        <button>Delete</button>
+    </form>
+<hr>
+    <div class="col-8 offset-3">
+        <h4>Leave a review</h4>
+        <form class="col-8 offset-3 mb-3 needs-validation" action="/listings/<%= listing._id %>/review" method="post" novalidate >
+            <div class="mb-3 mt-3">
+                <label for="rating" class="form-label form-range">Rating</label>
+                <input  type="range" min="1" max="5" id="rating" name="review[rating]">
+            </div>
+            <div class="mb-3 mt-3">
+                <label class="form-label" for="comment">Comment</label>
+                <textarea class="form-control" name="review[comment]" id="comment" cols="30" rows="10" required></textarea >
+                    <div class="invalid-feedback">Please submit some comments for review</div>
+            </div>
+            <button class="btn btn-outline-dark">Submit</button>
+        </form>
+        <hr>
+        <h4> <b>All reviews</b></h4>
+       
+            <div class="row">
+             <% for(review of listing.reviews){ %>
+            <div class="card col-5 mb-3 ms-3"> 
+                <div class="card-body">
+                  <h5 class="card-title">Vivek</h5>  
+                   <p class="card-text"> <%= review.comment %> </p>
+                   <p class="card-text"> <%= review.rating %> </p>
+                </div>
+                <form class="mb-3" method="post" action="/listings/<%= listing._id %>/reviews/<%=review._id  %>?_method=DELETE">
+                    <button class="btn btn-sm btn-dark">Delete</button>
+                </form>
+            </div>
+            <%}%>
+            </div>
+
+    </div>
+</body>

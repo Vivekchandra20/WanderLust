@@ -1,0 +1,68 @@
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.container{
+    flex: 1;
+}
+
+.navbar {
+  height: 5rem;
+  background-color: white;
+}
+
+.fa-compass {
+  color: red;
+  font-size: 2rem;
+}
+
+.nav-link {
+  color: black !important;
+}
+.f-info-links a {
+  text-decoration: none;
+  color: black;}
+  
+.f-info-links{
+    width: 100%;
+    text-align: center;
+}
+
+.f-info-links:hover{
+    text-decoration: underline;
+}
+
+.f-info-socials{
+    width: 100%;
+    font-size: 2rem;
+    text-align: center;
+}
+.f-info{
+   
+    display: flex;
+    height: 8rem;
+    background-color: #b8acac;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.listing-card{
+    border: none !important;
+    margin-bottom: 2rem;
+
+
+}
+.card-img-top{
+    border-radius: 2rem !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+.card-text{
+    font-weight: 400;
+}
+
+.listing{
+    text-decoration: none;
+}

@@ -1,0 +1,95 @@
+const express= require("express");
+const router = express.Router();
+const wrapAsync = require("../utils/wrapAsync.js");
+const { listingSchema, reviewSchema } = require("../schema.js");
+const ExpressError = require("../utils/ExpressError.js");
+const Listing = require("../models/listing.js");
+
+
+const validateListing = (req, res, next) => {
+  let { error } = listingSchema.validate(req.body);
+  if (error) {
+    throw new ExpressError(400, error);
+  } else {
+    next();
+  }
+};
+
+//Index route
+router.get(
+  "/",
+  wrapAsync(async (req, res) => {
+    const allListings = await Listing.find({});
+    res.render("./listings/index.ejs", { allListings });
+  })
+);
+
+// new route
+router.get(
+  "/new",
+  wrapAsync((req, res) => {
+    res.render("./listings/new.ejs");
+  })
+);
+
+// Show route
+router.get(
+  "/:id",
+  wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    const listing = await Listing.findById(id).populate("reviews");
+    res.render("./listings/show.ejs", { listing });
+  })
+);
+
+// CREATE listings
+router.post(
+  "/",
+  validateListing,
+  wrapAsync(async (req, res, next) => {
+    // if (!req.body) {
+    //   throw new ExpressError(400, "Send valid data for listing");
+    // }
+
+    let data = req.body;
+    await Listing.insertOne(data);
+    res.redirect("/listings");
+  })
+);
+
+//Edit route
+router.get(
+  "/:id/edit",
+  wrapAsync(async (req, res) => {
+    let { id } = req.params;
+    let listing = await Listing.findById(id);
+    res.render("./listings/edit", { listing });
+  })
+);
+
+//Update route
+router.put(
+  "/:id",
+  validateListing,
+  wrapAsync(async (req, res, next) => {
+    // if (!req.body) {
+    //   throw new ExpressError(400, "Send valid data for listing");
+    // }
+    let { id } = req.params;
+    let data = req.body;
+    await Listing.findByIdAndUpdate(id, data);
+    res.redirect("/listings");
+  })
+);
+
+//Delete route
+router.delete(
+  "/:id",
+  wrapAsync(async (req, res, next) => {
+    let { id } = req.params;
+    await Listing.findByIdAndDelete(id);
+    res.redirect("/listings");
+  })
+);
+
+module.exports= router;
