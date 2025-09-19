@@ -1,62 +1,65 @@
-<%- layout("/layouts/boilerplate") %>
-<body>
-    <div class="row">
-  <h2>Create a new listing</h2>
-  <form method="post" action="/listings" novalidate class="needs-validation">
+<% layout("/layouts/boilerplate") %>
+<div class="row mt-3">
+  <div class="col-8 offset-2">
+    <br> <br>
+<h3>Create a New Listing</h3>
+    <form action="/listings" method="POST" novalidate class="needs-validation">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+        <input type="text" placeholder="Add a catchy title " name="listing[title]" class="form-control"
+        required
+        >
+        <div class="valid-feedback">Title Looks good!</div>
+        </div>
+        
+        <div class="mb-3">
+         <label for="description" class="form-label">Description</label>  
+         <textarea  
+         name="listing[description]" 
+          class="form-control"
+          required
+          ></textarea>
+          <div class="invalid-feedback"> Please enter a short description.</div>
+        </div>
+         
+        <div class="mb-3">
+            <label for="image" class="form-label">Image Link</label>  
+            <input  type="text" placeholder="Enter image URL/Link " name="listing[image]" class="form-control">
+        </div>
+           
+        <div class="row">
+        
+           <div class="mb-3 col-md-4">
+            <label for="price" class="form-label">Price</label>  
+            <input   type="text" placeholder="1200" name="listing[price]" class="form-control" required>
+          <div class="invalid-feedback">Price should be valid.</div>
+          </div>
+           
+          
+           <div class="mb-3 col-md-8">
+              <label for="country" class="form-label">Country</label> 
+              <input type="text" placeholder="India" name="listing[country]" class="form-control" required>  
+            <div class="invalid-feedback">Country name should be valid.</div>
+          </div>
+           
+            </div>
 
-    <div>
-      <label for="title" class="form-label col-7">Enter title: </label>
-      <input type="text" name="title" class="form-control" required />
-      <div class="valid-feedback">
-        Title looks good
-      </div>
-     
-    </div>
+        </div>
+           
+           <div class="mb-3">
+             <label for="location" class="form-label">Location</label> 
+             <input type="text" placeholder="Jaipur, Rajasthan" name="listing[location]" class="form-control" required> 
+          <div class="invalid-feedback">Location should be valid.</div>
+          </div>
+           
+            </div>
+            
+            
+            
+            
+            <button class="btn btn-dark add-btn mt-3">Add</button>
+            <br> <br>
+    </form>
+</div>
+</div>
     
-    <div>
-      <label class="form-label" for="description">Enter Description: </label>
-      <textarea class="form-control" type="text"   name="description" required> </textarea> 
-      <div class="invalid-feedback">
-        Please enter the description
-      </div>
-
-    </div>
-    
-    
-    <div>
-      <label class="form-label" for="price">Enter price: </label>
-      <input class="form-control"  name="price" required />
-      <div class="invalid-feedback">
-        Please enter valid price
-      </div>
-    </div>
-    <div>
-
-
-      <label class="form-label" for="title">Enter location: </label>
-      <input class="form-control" type="text" name="location" required />
-      <div class="invalid-feedback">
-        Enter location
-      </div>
-    </div>
-      
-    
-    <label class="form-label" for="image">Image link </label>
-      <input class="form-control" type="text" name="image" required />
-    </div>
-
-
-    <div>
-      <label class="form-label" for="country">Enter country: </label>
-      <input class="form-control" type="text" name="country" required/>
-      <div class="invalid-feedback">
-        Please enter country
-      </div>
-      <br /><br />
-    </div>
-
-    <button class="btn btn-primary ">Submit</button>
-    <br><br>
-  </form>
-  </div>
-</body>
