@@ -1,3 +1,8 @@
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
+}
+console.log(process.env.SECRET);
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -54,12 +59,10 @@ async function main() {
   await mongoose.connect("mongodb://127.0.0.1:27017/wanderlust");
 }
 
-
-
 app.use((req, res, next) => {
-  res.locals.success = req.flash("success") ;
-  res.locals.error = req.flash("error") ;
-  res.locals.currUser= req.user;
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
   next();
 });
 
@@ -79,7 +82,7 @@ app.get("/", (req, res) => {
 
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
-app.use("/",userRouter);
+app.use("/", userRouter);
 
 app.all(/.*/, (req, res, next) => {
   next(new ExpressError(404, "Page not found"));
