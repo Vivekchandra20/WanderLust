@@ -27,12 +27,32 @@ module.exports.showListing = async (req, res) => {
 
 module.exports.createListing = async (req, res, next) => {
   let url = req.file.path;
-  let filename= req.file.filename;
-  
-  
+  let filename = req.file.filename;
+  let location = req.body.listing.location;
+
+  const data = await fetch(
+    `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+      location
+    )}`
+  ).then((res) => res.json());
+
   const newListing = new Listing(req.body.listing);
   newListing.owner = req.user._id;
-  newListing.image={url,filename};
+  newListing.image = { url, filename };
+
+  if (!data || data.length === 0) {
+    req.flash("error", "Could not find coordinates for this location");
+    return res.redirect("/listings/new");
+  }
+
+  const firstResult = data[0];
+  const lat = parseFloat(firstResult.lat);
+  const lon = parseFloat(firstResult.lon);
+  newListing.geometry = {
+    type: "Point",
+    coordinates: [lon, lat],
+  };
+
   await newListing.save();
   req.flash("success", "New listing is created");
   res.redirect("/listings");
@@ -47,6 +67,10 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateListing = async (req, res) => {
   let { id } = req.params;
   const listing = await Listing.findById(id);
+  let url = req.file.path;
+  let filename = req.file.filename;
+  listing.image = { url, filename };
+  listing.save();
 
   // If image field is missing or empty, preserve the old image object
   if (!req.body.listing.image || req.body.listing.image === "") {

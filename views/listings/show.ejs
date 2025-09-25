@@ -104,6 +104,18 @@
     </div>
   <% } %>
 </div>
+<div class="clo-8 offset-3 mb-3">
+  <h3>Where you'll be</h3>
+  <div id="map"></div>
+
+  <script>
+  window.listingCoords = <%= JSON.stringify(listing.geometry.coordinates) %>;
+  
+</script>
+
+<script src="../js/map.js"></script>
+
+  </div>
 
   </div>
 </div>
